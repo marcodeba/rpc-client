@@ -8,7 +8,6 @@ import java.io.ObjectOutputStream;
 import java.net.Socket;
 
 public class RpcNetTransport {
-
     private String host;
     private int port;
 
@@ -18,14 +17,12 @@ public class RpcNetTransport {
     }
 
     public Object send(RpcRequest request) {
-        Socket socket;
-        Object result = null;
+        Socket socket = null;
         ObjectOutputStream outputStream = null;
         ObjectInputStream inputStream = null;
 
         try {
             socket = new Socket(host, port); //建立连接
-
             // 客户端发送数据到服务端
             outputStream = new ObjectOutputStream(socket.getOutputStream());//网络socket
             outputStream.writeObject(request); //序列化()
@@ -33,13 +30,14 @@ public class RpcNetTransport {
 
             // 服务端方法返回数据
             inputStream = new ObjectInputStream(socket.getInputStream());
-            result = inputStream.readObject();
+            return inputStream.readObject();
         } catch (Exception e) {
             e.printStackTrace();
         } finally {
             if (inputStream != null) {
                 try {
                     inputStream.close();
+                    inputStream = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
@@ -47,11 +45,20 @@ public class RpcNetTransport {
             if (outputStream != null) {
                 try {
                     outputStream.close();
+                    outputStream = null;
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+            if (socket != null) {
+                try {
+                    socket.close();
+                    socket = null;
                 } catch (IOException e) {
                     e.printStackTrace();
                 }
             }
         }
-        return result;
+        return null;
     }
 }

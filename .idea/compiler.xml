@@ -7,8 +7,10 @@
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
         <module name="rpc-client" />
-        <module name="rpc-client - 版本1" />
       </profile>
     </annotationProcessing>
+    <bytecodeTargetLevel>
+      <module name="rpc-client" target="1.7" />
+    </bytecodeTargetLevel>
   </component>
 </project>

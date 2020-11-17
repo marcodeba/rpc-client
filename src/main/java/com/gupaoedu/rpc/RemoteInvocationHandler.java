@@ -6,7 +6,6 @@ import java.lang.reflect.InvocationHandler;
 import java.lang.reflect.Method;
 
 public class RemoteInvocationHandler implements InvocationHandler {
-
     private String host;
     private int port;
 
@@ -17,7 +16,6 @@ public class RemoteInvocationHandler implements InvocationHandler {
 
     @Override
     public Object invoke(Object proxy, Method method, Object[] args) {
-        //请求会进入到这里
         //请求数据的包装
         RpcRequest rpcRequest = new RpcRequest();
         rpcRequest.setClassName(method.getDeclaringClass().getName());
